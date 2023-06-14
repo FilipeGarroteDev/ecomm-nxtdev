@@ -1,0 +1,51 @@
+{
+	"$jsonSchema": {
+		"bsonType": "object",
+		"required": [
+			"_id",
+			"nome",
+			"descricao",
+			"slug",
+			"precoUnitario",
+			"quantidadeEmEstoque",
+			"categoria"
+		],
+		"additionalProperties": false,
+		"properties": {
+			"_id": {
+				"bsonType": "objectId",
+				"description": "Id do produto."
+			},
+			"nome": {
+				"bsonType": "string",
+				"description": "O campo 'nome' deve ser uma string e deve conter, no mínimo, 5 caracteres.",
+				"minLength": 5
+			},
+			"descricao": {
+				"bsonType": "string",
+				"description": "O campo 'descrição' deve ser uma string e deve conter, no mínimo, 10 caracteres.",
+				"minLength": 10
+			},
+			"slug": {
+				"bsonType": "string",
+				"description": "O campo 'slug' deve ser uma string e deve conter, no mínimo, 5 caracteres.",
+				"minLength": 5
+			},
+			"precoUnitario": {
+				"bsonType": "decimal",
+				"description": "O campo 'precoUnitario' deve ser um número decimal cujo valor deve ser, no mínimo, 0.",
+				"minimum": 0
+			},
+			"quantidadeEmEstoque": {
+				"bsonType": "int",
+				"description": "O campo 'precoUnitario' deve ser um número inteiro cujo valor deve ser, no mínimo, 0.",
+				"minimum": 0
+			},
+			"categoria": {
+				"bsonType": "string",
+				"description": "O campo 'categoria' deve ser 'AUTOMOTIVA', 'CELULARES', 'INFORMÁTICA', 'LIVROS' ou 'MÓVEIS'",
+				"enum": ["AUTOMOTIVA", "CELULARES", "INFORMÁTICA", "LIVROS", "MÓVEIS"]
+			}
+		}
+	}
+}

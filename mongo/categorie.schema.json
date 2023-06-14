@@ -1,0 +1,23 @@
+{
+	"$jsonSchema": {
+		"bsonType": "object",
+		"required": ["_id", "nome", "status"],
+		"additionalProperties": false,
+		"properties": {
+			"nome": {
+				"bsonType": "string",
+				"description": "O campo 'nome' deve ser uma string e deve conter, no mínimo, 3 caracteres.",
+				"minLength": 3
+			},
+			"status": {
+				"bsonType": "string",
+				"description": "O campo 'status' deve ser 'ATIVA' ou 'INATIVA'.",
+				"enum": ["ATIVA", "INATIVA"]
+			},
+			"_id": {
+				"bsonType": "objectId",
+				"description": "Id da categoria"
+			}
+		}
+	}
+}
