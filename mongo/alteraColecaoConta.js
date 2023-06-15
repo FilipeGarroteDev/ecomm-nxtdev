@@ -50,14 +50,14 @@ const updateAccountCollection = db.runCommand(
 						bsonType: "string",
 						minLength: 11,
 						maxLength: 11,
-						pattern: "^d{11}$",
+						pattern: "^//d{11}$",
 						description:
 							"O campo 'cpf' deve ser uma string com, exatamente, 11 caracteres.",
 					},
 					telefone: {
 						bsonType: "string",
 						minLength: 10,
-						pattern: "^d{10}$",
+						pattern: "^//d{10}$",
 						description:
 							"O campo 'telefone' deve ser uma string com, no mínimo, 10 caracteres.",
 					},
