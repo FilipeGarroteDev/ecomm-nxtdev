@@ -18,7 +18,23 @@ export default class CategoryService {
 	static async findCategories() {
 		try {
 			const response = await fetch("http://localhost:3000/categories");
-			console.log(chalk.bgGreen(`response status: ${response.status}`));
+			console.log(
+				chalk.bgBlackBright.black(`response status: ${response.status}`)
+			);
+			return response.json();
+		} catch (error) {
+			return handleErrors(error.cause.code);
+		}
+	}
+
+	static async findCategoryById(categoryId) {
+		try {
+			const response = await fetch(
+				`http://localhost:3000/categories/${categoryId}`
+			);
+			console.log(
+				chalk.bgBlackBright.black(`response status: ${response.status}`)
+			);
 			return response.json();
 		} catch (error) {
 			return handleErrors(error.cause.code);
