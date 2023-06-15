@@ -6,8 +6,12 @@
 	"type": "module",
 	"scripts": {
 		"start": "node src/main.js",
+    "cli:listarCategorias": "node src/cli/cli.js --listarCategorias",
 		"test": "echo \"Error: no test specified\" && exit 1"
 	},
 	"author": "",
-	"license": "MIT"
+	"license": "MIT",
+	"dependencies": {
+		"chalk": "^5.2.0"
+	}
 }
