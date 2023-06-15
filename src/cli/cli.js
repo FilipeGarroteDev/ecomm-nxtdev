@@ -14,13 +14,23 @@ async function processarComando(args) {
 
 		case "--recuperarCategoriaPorId":
 			const category = await CategoryService.findCategoryById(categoryId);
-			if (Object.keys(category).length === 0)
+
+			if (!categoryId)
+				return console.log(
+					chalk.redBright(
+						"Você precisa passar, como parâmetro adicional, o id da Categoria. Refaça a operação."
+					)
+				);
+
+			if (!Object.hasOwn(category, "id"))
 				return console.log(
 					chalk.redBright(
 						"Não há categoria com o id informado. Verifique o id passado e tente novamente."
 					)
 				);
+
 			return console.log(category);
+
 		default:
 			console.error(
 				chalk.black.bgBlackBright(
