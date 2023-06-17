@@ -1,4 +1,6 @@
 openapi: 3.0.1
+
+
 info:
   title: Ecomm - LevelUp Alura
   description: API para e-commerce desenvolvida durante o programa LevelUp da Alura com a PagoNxt
@@ -6,11 +8,16 @@ info:
   contact:
     name: Filipe Garrote
     email: filipe.garrote@gmail.com
+    
+    
 servers:
 - url: http://localhost:3000/
   description: API - Ecomm
+  
+  
 paths:
-  /categories:
+
+  /api/categories:
     get:
       summary: Realiza a listagem de todas as categorias
       responses:
@@ -19,13 +26,35 @@ paths:
           content:
             application/json:
               schema:
+                minLength: 0
                 type: array
                 items:
-                  $ref: "#/components/schemas/Categoria"
+                  $ref: "#/components/schemas/CategoriaComID"
+                  
+                  
+  /api/admin/categories:
+    post:
+      summary: Realiza a inserção de uma nova categoria
+      requestBody:
+        content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NovaCategoria"
+      responses:
+        201:
+          description: Criado
+          content:
+            application/json:
+              schema:
+                minLength: 0
+                type: array
+                items:
+                  $ref: "#/components/schemas/CategoriaComID"
+          
           
 components:
   schemas:
-    Categoria:
+    CategoriaComID:
       description: "categoria"
       type: object
       properties:
@@ -35,3 +64,14 @@ components:
           type: string
         status:
           type: string
+          
+    NovaCategoria:
+      description: "categoria"
+      type: object
+      properties:
+        nome:
+          type: string
+        status:
+          type: string
+          enum: 
+            - "ATIVA"
