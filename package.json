@@ -5,7 +5,7 @@
 	"main": "src/main.js",
 	"type": "module",
 	"scripts": {
-		"start": "node src/main.js",
+		"start": "npx json-server src/cli/db.json",
     "cli:listCategories": "node src/cli/cli.js --listarCategorias",
     "cli:findCategory": "node src/cli/cli.js --recuperarCategoriaPorId",
 		"test": "echo \"Error: no test specified\" && exit 1"
