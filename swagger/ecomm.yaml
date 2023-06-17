@@ -31,7 +31,6 @@ paths:
                 items:
                   $ref: "#/components/schemas/CategoriaComID"
                   
-                  
   /api/admin/categories:
     post:
       summary: Realiza a inserção de uma nova categoria
@@ -50,12 +49,33 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/CategoriaComID"
+                  
+  /categories/{id}:
+    parameters: 
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+    get:
+      summary: Realiza a listagem de uma categoria específica
+      responses:
+        200:
+          description: Sucesso
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CategoriaComID"
+        404:
+          $ref: "#/components/responses/NotFound"
+            
+
           
           
 components:
   schemas:
     CategoriaComID:
-      description: "categoria"
+      description: "entidade categoria"
       type: object
       properties:
         id: 
@@ -66,12 +86,16 @@ components:
           type: string
           
     NovaCategoria:
-      description: "categoria"
+      description: "nova categoria"
       type: object
       properties:
         nome:
           type: string
-        status:
-          type: string
-          enum: 
-            - "ATIVA"
+          
+  responses:
+    NotFound:
+      description: Não Encontrado
+      content:
+        application/json:
+          example: "Not Found"
+      
