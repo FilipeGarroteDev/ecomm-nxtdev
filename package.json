@@ -8,6 +8,7 @@
 		"start": "npx json-server src/cli/db.json",
     "cli:listCategories": "node src/cli/cli.js --listarCategorias",
     "cli:findCategory": "node src/cli/cli.js --recuperarCategoriaPorId",
+		"cli:insertCategory": "node src/cli/cli.js --inserirCategoria",
 		"test": "echo \"Error: no test specified\" && exit 1"
 	},
 	"author": "",

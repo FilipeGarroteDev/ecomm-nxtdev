@@ -3,15 +3,15 @@ import chalk from "chalk";
 function handleErrors(err) {
 	switch (err) {
 		case "ECONNREFUSED":
-			return chalk.redBright(
+			throw new Error(chalk.redBright(
 				"O link informado se encontra offline. Tente novamente mais tarde."
-			);
+			));
 		case "ENOTFOUND":
-			return chalk.redBright("O link informado não existe. Refaça a operação.");
+			throw new Error(chalk.redBright("O link informado não existe. Refaça a operação."));
 		default:
-			return chalk.redBright(
+			throw new Error(chalk.redBright(
 				`Não foi possível completar a operação. Código do erro: ${err}`
-			);
+			));
 	}
 }
 export default class CategoryService {
@@ -32,6 +32,25 @@ export default class CategoryService {
 			const response = await fetch(
 				`http://localhost:3000/categories/${categoryId}`
 			);
+			console.log(
+				chalk.bgBlackBright.black(`response status: ${response.status}`)
+			);
+			return response.json();
+		} catch (error) {
+			return handleErrors(error.cause.code);
+		}
+	}
+
+	static async createCategory(newCategory) {
+		try {
+			const response = await fetch(`http://localhost:3000/categories`, {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+					Accept: "application/json",
+				},
+				body: JSON.stringify(newCategory),
+			});
 			console.log(
 				chalk.bgBlackBright.black(`response status: ${response.status}`)
 			);
