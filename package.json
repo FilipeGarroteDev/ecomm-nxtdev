@@ -10,6 +10,7 @@
     "cli:findCategory": "node src/cli/cli.js --recuperarCategoriaPorId",
 		"cli:insertCategory": "node src/cli/cli.js --inserirCategoria",
 		"cli:updateCategory": "node src/cli/cli.js --atualizarCategoria",
+		"cli:deleteCategory": "node src/cli/cli.js --excluirCategoria",
 		"test": "echo \"Error: no test specified\" && exit 1"
 	},
 	"author": "",

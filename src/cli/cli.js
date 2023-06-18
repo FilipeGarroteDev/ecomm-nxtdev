@@ -89,8 +89,21 @@ async function processarComando(args) {
 			);
 			return console.log("Response Data: ", updatedCategory);
 
+		case "--excluirCategoria":
+			if (!firstAdditionalParameter)
+				throw new Error(
+					chalk.redBright(
+						"Você precisa passar, como parâmetros adicionais, o id da categoria a ser atualizada e o caminho do arquivo no qual há a nova categoria. Refaça a operação."
+					)
+				);
+
+			const deletedCategory = await CategoryService.deleteCategory(
+				firstAdditionalParameter
+			);
+			return console.log(deletedCategory);
+
 		default:
-			console.error(
+			return console.error(
 				chalk.black.bgBlackBright(
 					`Comando inválido, refaça a operação.\n\nComandos válidos\n${chalk.red(
 						"--listarCategorias:"
