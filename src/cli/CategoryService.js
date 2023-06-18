@@ -59,4 +59,23 @@ export default class CategoryService {
 			return handleErrors(error.cause.code);
 		}
 	}
+
+	static async updateCategory(id, newCategory) {
+		try {
+			const response = await fetch(`http://localhost:3000/categories/${id}`, {
+				method: "PUT",
+				headers: {
+					"Content-Type": "application/json",
+					Accept: "application/json",
+				},
+				body: JSON.stringify(newCategory),
+			});
+			console.log(
+				chalk.bgBlackBright.black(`response status: ${response.status}`)
+			);
+			return response.json();
+		} catch (error) {
+			return handleErrors(error.cause.code);
+		}
+	}
 }

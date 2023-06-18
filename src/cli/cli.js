@@ -28,7 +28,8 @@ async function verifyValidFile(filePath) {
 
 async function processarComando(args) {
 	const flag = args[2];
-	const additionalParameter = args[3];
+	const firstAdditionalParameter = args[3];
+	const secondAdditionalParameter = args[4];
 
 	switch (flag) {
 		case "--listarCategorias":
@@ -37,10 +38,10 @@ async function processarComando(args) {
 
 		case "--recuperarCategoriaPorId":
 			const category = await CategoryService.findCategoryById(
-				additionalParameter
+				firstAdditionalParameter
 			);
 
-			if (!additionalParameter)
+			if (!firstAdditionalParameter)
 				return console.log(
 					chalk.redBright(
 						"Você precisa passar, como parâmetro adicional, o id da Categoria. Refaça a operação."
@@ -57,21 +58,49 @@ async function processarComando(args) {
 			return console.log(category);
 
 		case "--inserirCategoria":
-			if (!additionalParameter)
+			if (!firstAdditionalParameter)
 				throw new Error(
 					chalk.redBright(
 						"Você precisa passar, como parâmetro adicional, o caminho do arquivo no qual há a nova categoria. Refaça a operação."
 					)
 				);
-			const newCategory = await verifyValidFile(additionalParameter);
+			console.log(firstAdditionalParameter);
+			const newCategory = await verifyValidFile(firstAdditionalParameter);
 
-			const insertedCategory = await CategoryService.createCategory(newCategory);
+			const insertedCategory = await CategoryService.createCategory(
+				newCategory
+			);
 			return console.log(insertedCategory);
+
+		case "--atualizarCategoria":
+			if (!firstAdditionalParameter || !secondAdditionalParameter)
+				throw new Error(
+					chalk.redBright(
+						"Você precisa passar, como parâmetros adicionais, o id da categoria a ser atualizada e o caminho do arquivo no qual há a nova categoria. Refaça a operação."
+					)
+				);
+			const newUpdateCategory = await verifyValidFile(
+				secondAdditionalParameter
+			);
+
+			const updatedCategory = await CategoryService.updateCategory(
+				firstAdditionalParameter,
+				newUpdateCategory
+			);
+			return console.log("Response Data: ", updatedCategory);
 
 		default:
 			console.error(
 				chalk.black.bgBlackBright(
-					"Comando inválido, refaça a operação.\n\nComandos válidos:\n--listarCategorias: Lista as categorias existentes;\n--recuperarCategoriaPorId: Retorna uma categoria específica. Requer parâmetro adicional (id da categoria)\n--inserirCategoria: Insere uma nova categoria. Requer parâmetro adicional (arquivo json da nova categoria)"
+					`Comando inválido, refaça a operação.\n\nComandos válidos\n${chalk.red(
+						"--listarCategorias:"
+					)} Lista as categorias existentes;\n${chalk.red(
+						"--recuperarCategoriaPorId:"
+					)} Retorna uma categoria específica. Requer parâmetro adicional (id da categoria)\n${chalk.red(
+						"--inserirCategoria:"
+					)} Insere uma nova categoria. Requer parâmetro adicional (arquivo json da nova categoria)\n${chalk.red(
+						"--atualizarCategoria:"
+					)} Atualiza uma categoria. Requer 2 parâmetros adicionais (id da categoria a ser atualizada e caminho do arquivo contendo a nova categoria)`
 				)
 			);
 	}
