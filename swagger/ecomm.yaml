@@ -49,6 +49,7 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/CategoriaComID"
+
                   
   /categories/{id}:
     parameters: 
@@ -61,15 +62,73 @@ paths:
       summary: Realiza a listagem de uma categoria específica
       responses:
         200:
+          $ref: "#/components/responses/Ok"
+        404:
+          $ref: "#/components/responses/NotFound"
+            
+            
+  /api/admin/categories/{id}:
+    parameters:
+    - name: id
+      in: path
+      required: true
+      schema:
+        type: integer 
+    put:
+      summary: Realiza a alteração dos dados de uma categoria
+      requestBody:
+        content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  name:
+                    type: string
+                  status:
+                    type: string
+      responses:
+        200:
+          $ref: "#/components/responses/Ok"
+        404:
+          $ref: "#/components/responses/NotFound"
+          
+    delete:
+      summary: Realiza a exclusão de uma categoria
+      responses:
+        200:
           description: Sucesso
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/CategoriaComID"
+                type: object
         404:
           $ref: "#/components/responses/NotFound"
-            
-
+    
+  /api/admin/categories/ativacao/{id}:
+    parameters:
+    - name: id
+      in: path
+      required: true
+      schema:
+        type: integer
+    patch:
+      summary: Realiza a ativação de uma categoria
+      responses:
+        200:
+          description: Sucesso
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  name:
+                    type: string
+                  status:
+                    type: string
+                    enum: 
+                    - "ATIVA"
+        404:
+          $ref: "#/components/responses/NotFound"
           
           
 components:
@@ -99,3 +158,9 @@ components:
         application/json:
           example: "Not Found"
       
+    Ok:
+      description: Sucesso
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/CategoriaComID"
