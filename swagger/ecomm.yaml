@@ -141,6 +141,28 @@ paths:
                 $ref: "#/components/schemas/ProdutoComID"
                 
   /api/products:
+    parameters:
+    - name: precoMinimo
+      required: false
+      in: query
+      schema:
+        type: integer
+    - name: precoMaximo
+      required: false
+      in: query
+      schema:
+        type: integer
+    - name: filtroCategoria
+      required: false
+      in: query
+      schema:
+        type: string
+    - name: estoqueMaiorQue
+      required: false
+      in: query
+      schema:
+        type: integer
+  
     get:
       summary: Lista todos os produtos existentes
       responses:
