@@ -279,6 +279,44 @@ paths:
           $ref: "#/components/responses/NotFound"
           
           
+  /api/orders:
+    post:
+      summary: Realiza a criação de um novo pedido
+      requestBody:
+        content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NovoPedido"
+      responses:
+        201:
+          description: Criado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PedidoComID"
+                  
+  
+  /api/orders/{id}:
+    parameters:
+    - name: id
+      required: true
+      in: path
+      schema:
+        type: integer
+    
+    get:
+      summary: Detalha um pedido específico
+      responses:
+        200:
+          description: Sucesso
+          content:
+            application/json:
+              schema:
+               $ref: "#/components/schemas/PedidoComID"
+        404:
+          $ref: "#/components/responses/NotFound"
+          
+          
 components:
   schemas:
     CategoriaComID:
@@ -448,7 +486,65 @@ components:
           - "SP"
           - "SE"
           - "TO"
-        
+    
+    ItemPedido:
+      description: "item do pedido"
+      type: object
+      properties:
+        productId:
+          type: integer
+        quantidade:
+          type: integer
+        desconto:
+          type: number
+          format: decimal
+        precoUnitario:
+          type: number
+          format: decimal
+          
+    NovoPedido:
+      description: "novo pedido"
+      type: object
+      properties:
+        rua:
+          type: string
+        numero:
+          type: string
+        complemento:
+          type: string
+        cep:
+          type: string
+        cidade:
+          type: string
+        estado:
+          type: string
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/ItemPedido"
+            
+    PedidoComID:
+      description: "pedido"
+      type: object
+      properties:
+        id:
+          type: integer
+        rua:
+          type: string
+        numero:
+          type: string
+        complemento:
+          type: string
+        cep:
+          type: string
+        cidade:
+          type: string
+        estado:
+          type: string
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/ItemPedido"
         
           
   responses:
