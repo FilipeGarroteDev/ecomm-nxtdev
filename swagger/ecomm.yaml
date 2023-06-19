@@ -45,9 +45,6 @@ paths:
           content:
             application/json:
               schema:
-                minLength: 0
-                type: array
-                items:
                   $ref: "#/components/schemas/CategoriaComID"
 
                   
@@ -62,7 +59,7 @@ paths:
       summary: Realiza a listagem de uma categoria específica
       responses:
         200:
-          $ref: "#/components/responses/Ok"
+          $ref: "#/components/responses/CategoriaSucesso"
         404:
           $ref: "#/components/responses/NotFound"
             
@@ -88,7 +85,7 @@ paths:
                     type: string
       responses:
         200:
-          $ref: "#/components/responses/Ok"
+          $ref: "#/components/responses/CategoriaSucesso"
         404:
           $ref: "#/components/responses/NotFound"
           
@@ -96,11 +93,7 @@ paths:
       summary: Realiza a exclusão de uma categoria
       responses:
         200:
-          description: Sucesso
-          content:
-            application/json:
-              schema:
-                type: object
+          description: Categoria deletada
         404:
           $ref: "#/components/responses/NotFound"
     
@@ -131,6 +124,84 @@ paths:
           $ref: "#/components/responses/NotFound"
           
           
+  /api/admin/products:
+    post:
+      summary: Realiza a inserção de um novo produto
+      requestBody:
+        content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NovoProduto"
+      responses:
+        201:
+          description: Criado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ProdutoComID"
+                
+  /api/products:
+    get:
+      summary: Lista todos os produtos existentes
+      responses:
+        200:
+          description: Sucesso
+          content:
+            application/json:
+              schema:
+                type: array
+                minLength: 0
+                items:
+                  $ref: "#/components/schemas/ProdutoComID"
+                  
+  
+  /api/products/{id}:
+    parameters:
+    - name: id
+      required: true
+      in: path
+      schema:
+        type: integer
+    
+    get:
+      summary: Lista um produto específico
+      responses:
+        200:
+          $ref: "#/components/responses/ProdutoSucesso"
+        404:
+          $ref: "#/components/responses/NotFound"
+          
+          
+  /api/admin/products/{id}:
+    parameters:
+    - name: id
+      required: true
+      in: path
+      schema:
+        type: integer
+    
+    put:
+      summary: Atualiza um produto específico
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/NovoProduto"
+      responses:
+        200:
+          $ref: "#/components/responses/ProdutoSucesso"
+        404:
+          $ref: "#/components/responses/NotFound"
+          
+    delete:
+      summary: Exclui um produto específico
+      responses:
+        200:
+          description: Produto deletado
+        404:
+          $ref: "#/components/responses/NotFound"
+          
+          
 components:
   schemas:
     CategoriaComID:
@@ -151,6 +222,43 @@ components:
         nome:
           type: string
           
+    NovoProduto:
+      description: "novo produto"
+      type: object
+      properties:
+        nome:
+          type: string
+        descricao:
+          type: string
+        slug:
+          type: string
+        precoUnitario:
+          type: decimal
+        quantidadeEmEstoque:
+          type: integer
+        categoria:
+          type: string
+    
+    ProdutoComID:
+      description: "produto"
+      type: object
+      properties:
+        id:
+          type: integer
+        nome:
+          type: string
+        descricao:
+          type: string
+        slug:
+          type: string
+        precoUnitario:
+          type: decimal
+        quantidadeEmEstoque:
+          type: integer
+        categoria:
+          type: string
+        
+          
   responses:
     NotFound:
       description: Não Encontrado
@@ -158,9 +266,16 @@ components:
         application/json:
           example: "Not Found"
       
-    Ok:
+    CategoriaSucesso:
       description: Sucesso
       content:
         application/json:
           schema:
             $ref: "#/components/schemas/CategoriaComID"
+    
+    ProdutoSucesso:
+      description: Sucesso
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ProdutoComID"
