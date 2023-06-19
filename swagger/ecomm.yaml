@@ -202,6 +202,83 @@ paths:
           $ref: "#/components/responses/NotFound"
           
           
+  /api/admin/users:
+    post:
+      summary: Realiza a inserção de um novo usuário
+      requestBody:
+        content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NovoUsuario"
+      responses:
+        201:
+          description: Criado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UsuarioComID"
+
+    get:
+      summary: Lista todos os usuários existentes
+      responses:
+        200:
+          description: Sucesso
+          content:
+            application/json:
+              schema:
+                type: array
+                minLength: 0
+                items:
+                  $ref: "#/components/schemas/UsuarioComID"
+                  
+  
+  /api/users/{id}:
+    parameters:
+    - name: id
+      required: true
+      in: path
+      schema:
+        type: integer
+    
+    get:
+      summary: Lista um usuário específico
+      responses:
+        200:
+          $ref: "#/components/responses/UsuarioSucesso"
+        404:
+          $ref: "#/components/responses/NotFound"
+          
+          
+  /api/admin/users/{id}:
+    parameters:
+    - name: id
+      required: true
+      in: path
+      schema:
+        type: integer
+    
+    put:
+      summary: Atualiza um usuário específico
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/NovoUsuario"
+      responses:
+        200:
+          $ref: "#/components/responses/UsuarioSucesso"
+        404:
+          $ref: "#/components/responses/NotFound"
+          
+    delete:
+      summary: Exclui um usuário específico
+      responses:
+        200:
+          description: Usuário deletado
+        404:
+          $ref: "#/components/responses/NotFound"
+          
+          
 components:
   schemas:
     CategoriaComID:
@@ -233,7 +310,8 @@ components:
         slug:
           type: string
         precoUnitario:
-          type: decimal
+          type: integer
+          format: decimal
         quantidadeEmEstoque:
           type: integer
         categoria:
@@ -252,11 +330,125 @@ components:
         slug:
           type: string
         precoUnitario:
-          type: decimal
+          type: number
+          format: decimal
         quantidadeEmEstoque:
           type: integer
         categoria:
           type: string
+          
+    NovoUsuario:
+      description: "novo usuário"
+      type: object
+      properties:
+        nome:
+          type: string
+        email:
+          type: string
+        senha:
+          type: string
+        cpf:
+          type: number
+        telefone:
+          type: integer
+        rua:
+          type: string
+        numero:
+          type: string
+        complemento:
+          type: string
+        cep:
+          type: string
+        cidade:
+          type: string
+        estado:
+          type: string
+          enum: 
+          - "AC"
+          - "AL"
+          - "AP"
+          - "AM"
+          - "BA"
+          - "CE"
+          - "DF"
+          - "ES"
+          - "GO"
+          - "MA"
+          - "MT"
+          - "MS"
+          - "MG"
+          - "PA"
+          - "PB"
+          - "PR"
+          - "PE"
+          - "PI"
+          - "RJ"
+          - "RN"
+          - "RS"
+          - "RO"
+          - "RR"
+          - "SC"
+          - "SP"
+          - "SE"
+          - "TO"
+          
+    UsuarioComID:
+      description: "novo usuário"
+      type: object
+      properties:
+        id:
+          type: integer
+        nome:
+          type: string
+        email:
+          type: string
+        senha:
+          type: string
+        cpf:
+          type: number
+        telefone:
+          type: integer
+        rua:
+          type: string
+        numero:
+          type: string
+        complemento:
+          type: string
+        cep:
+          type: string
+        cidade:
+          type: string
+        estado:
+          type: string
+          enum: 
+          - "AC"
+          - "AL"
+          - "AP"
+          - "AM"
+          - "BA"
+          - "CE"
+          - "DF"
+          - "ES"
+          - "GO"
+          - "MA"
+          - "MT"
+          - "MS"
+          - "MG"
+          - "PA"
+          - "PB"
+          - "PR"
+          - "PE"
+          - "PI"
+          - "RJ"
+          - "RN"
+          - "RS"
+          - "RO"
+          - "RR"
+          - "SC"
+          - "SP"
+          - "SE"
+          - "TO"
+        
         
           
   responses:
@@ -279,3 +471,10 @@ components:
         application/json:
           schema:
             $ref: "#/components/schemas/ProdutoComID"
+            
+    UsuarioSucesso:
+      description: Sucesso
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/UsuarioComID"
