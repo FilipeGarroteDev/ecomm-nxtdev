@@ -6,16 +6,23 @@
 	"type": "module",
 	"scripts": {
 		"start": "npx json-server src/cli/db.json",
-    "cli:listCategories": "node src/cli/cli.js --listarCategorias",
-    "cli:findCategory": "node src/cli/cli.js --recuperarCategoriaPorId",
+		"cli:listCategories": "node src/cli/cli.js --listarCategorias",
+		"cli:findCategory": "node src/cli/cli.js --recuperarCategoriaPorId",
 		"cli:insertCategory": "node src/cli/cli.js --inserirCategoria",
 		"cli:updateCategory": "node src/cli/cli.js --atualizarCategoria",
 		"cli:deleteCategory": "node src/cli/cli.js --excluirCategoria",
+		"lint": "eslint ./**/*.js",
+		"lint:fix": "npm run lint -- --fix",
 		"test": "echo \"Error: no test specified\" && exit 1"
 	},
 	"author": "",
 	"license": "MIT",
 	"dependencies": {
 		"chalk": "^5.2.0"
+	},
+	"devDependencies": {
+		"eslint": "^8.43.0",
+		"eslint-config-airbnb-base": "^15.0.0",
+		"eslint-plugin-import": "^2.27.5"
 	}
 }
