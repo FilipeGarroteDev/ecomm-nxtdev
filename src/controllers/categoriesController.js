@@ -6,7 +6,7 @@ class CategoriesController {
       const categories = await CategoriesModel.find();
       return res.status(200).send(categories);
     } catch (error) {
-      return res.status(400).send('Houve um erro na requisição. Por favor, tente novamente');
+      return res.status(500).send('Houve um erro na requisição. Por favor, tente novamente');
     }
   }
 
@@ -19,24 +19,43 @@ class CategoriesController {
       if (error.name === 'ValidationError') {
         return res.status(422).send(error.message);
       }
-      return res.status(400).send('Houve um erro com sua requisição. Por favor, tente novamente');
+      return res.status(500).send('Houve um erro com sua requisição. Por favor, tente novamente');
     }
   }
 
   static async getCategoryById(req, res) {
     const { id } = req.params;
     try {
-      const category = await CategoriesModel.findOne().where({ _id: id });
-      console.log(category);
+      const category = await CategoriesModel.findById(id);
       if (!category) return res.status(404).send('Não há quaisquer categorias com o id informado. Por gentileza, refaça a operação.');
 
       return res.status(200).send(category);
     } catch (error) {
-      console.log(error);
       if (error.name === 'CastError') {
-        return res.status(422).send('O id informado é inválido, favor informe um id compatível com o tipo ObjectID');
+        return res.status(400).send('O id informado é inválido, favor informe um id compatível com o tipo ObjectID');
       }
-      return res.status(400).send('Houve um erro com sua requisição. Por favor, tente novamente');
+      return res.status(500).send('Houve um erro com sua requisição. Por favor, tente novamente');
+    }
+  }
+
+  static async updateCategory(req, res) {
+    const { id } = req.params;
+    const newCategoryData = req.body;
+
+    try {
+      const category = await CategoriesModel.findByIdAndUpdate(id, { $set: newCategoryData }, { runValidators: true });
+
+      if (!category) return res.status(404).send('Não há quaisquer categorias com o id informado. Por gentileza, refaça a operação.');
+
+      return res.status(200).send('Produto atualizado com sucesso');
+    } catch (error) {
+      if (error.name === 'CastError') {
+        return res.status(400).send('O id informado é inválido, favor informe um id compatível com o tipo ObjectID');
+      }
+      if (error.name === 'ValidationError') {
+        return res.status(422).send(error.message);
+      }
+      return res.status(500).send('Houve um erro com sua requisição. Por favor, tente novamente');
     }
   }
 }

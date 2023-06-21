@@ -8,7 +8,7 @@ const categoriesSchema = new mongoose.Schema({
       message: "Somente são aceitos os valores 'ATIVA' e 'INATIVA' para status",
     },
   },
-  name: {
+  nome: {
     type: String,
     minLength: [3, 'É necessário que o nome da categoria tenha, no mínimo, 3 caracteres'],
     validate: {

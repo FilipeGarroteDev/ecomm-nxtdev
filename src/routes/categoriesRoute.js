@@ -5,7 +5,8 @@ const router = express.Router();
 
 router
   .get('/categories', CategoriesController.getAllCategories)
-  .post('/categories', CategoriesController.insertNewCategory)
-  .get('/categories/:id', CategoriesController.getCategoryById);
+  .post('/admin/categories', CategoriesController.insertNewCategory)
+  .get('/categories/:id', CategoriesController.getCategoryById)
+  .put('/admin/categories/:id', CategoriesController.updateCategory);
 
 export default router;

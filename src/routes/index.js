@@ -7,5 +7,5 @@ export default function routes(app) {
       res.status(200).send('Página Inicial');
     })
     .use(express.json())
-    .use(categoriesRouter);
+    .use('/api', categoriesRouter);
 }
