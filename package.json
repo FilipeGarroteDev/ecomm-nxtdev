@@ -2,10 +2,10 @@
 	"name": "ecomm",
 	"version": "1.0.0",
 	"description": "",
-	"main": "src/main.js",
+	"main": "index.js",
 	"type": "module",
 	"scripts": {
-		"start": "npx json-server src/cli/db.json",
+		"start": "nodemon index.js",
 		"cli:listCategories": "node src/cli/cli.js --listarCategorias",
 		"cli:findCategory": "node src/cli/cli.js --recuperarCategoriaPorId",
 		"cli:insertCategory": "node src/cli/cli.js --inserirCategoria",
@@ -18,11 +18,14 @@
 	"author": "",
 	"license": "MIT",
 	"dependencies": {
-		"chalk": "^5.2.0"
+		"chalk": "^5.2.0",
+		"express": "^4.18.2",
+		"mongoose": "^7.3.0"
 	},
 	"devDependencies": {
 		"eslint": "^8.43.0",
 		"eslint-config-airbnb-base": "^15.0.0",
-		"eslint-plugin-import": "^2.27.5"
+		"eslint-plugin-import": "^2.27.5",
+		"nodemon": "^2.0.22"
 	}
 }
