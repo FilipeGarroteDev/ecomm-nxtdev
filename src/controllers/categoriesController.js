@@ -47,7 +47,7 @@ class CategoriesController {
 
       if (!category) return res.status(404).send('Não há quaisquer categorias com o id informado. Por gentileza, refaça a operação.');
 
-      return res.status(200).send('Produto atualizado com sucesso');
+      return res.status(200).send('Categoria atualizada com sucesso');
     } catch (error) {
       if (error.name === 'CastError') {
         return res.status(400).send('O id informado é inválido, favor informe um id compatível com o tipo ObjectID');
@@ -67,8 +67,26 @@ class CategoriesController {
       console.log(category);
       if (!category) return res.status(404).send('Não há quaisquer categorias com o id informado. Por gentileza, refaça a operação.');
 
-      return res.status(200).send('Produto removido com sucesso');
+      return res.status(200).send('Categoria removida com sucesso');
     } catch (error) {
+      if (error.name === 'CastError') {
+        return res.status(400).send('O id informado é inválido, favor informe um id compatível com o tipo ObjectID');
+      }
+      return res.status(500).send('Houve um erro com sua requisição. Por favor, tente novamente');
+    }
+  }
+
+  static async activeCategory(req, res) {
+    const { id } = req.params;
+
+    try {
+      const category = await CategoriesModel.findOneAndUpdate({ _id: id, status: 'INATIVA' }, { $set: { status: 'ATIVA' } });
+
+      if (!category) return res.status(404).send('Não há categoria com o id informado OU essa categoria já foi ativada.');
+
+      return res.status(200).send('Categoria ativada!');
+    } catch (error) {
+      console.log(error);
       if (error.name === 'CastError') {
         return res.status(400).send('O id informado é inválido, favor informe um id compatível com o tipo ObjectID');
       }
