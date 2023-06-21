@@ -1,10 +1,26 @@
 import mongoose from 'mongoose';
 
 const categoriesSchema = new mongoose.Schema({
-  _id: { type: String },
-  status: { type: String, required: true },
-  name: { type: String, required: true },
+  status: {
+    type: String,
+    enum: {
+      values: ['ATIVA', 'INATIVA'],
+      message: "Somente são aceitos os valores 'ATIVA' e 'INATIVA' para status",
+    },
+  },
+  name: {
+    type: String,
+    minLength: [3, 'É necessário que o nome da categoria tenha, no mínimo, 3 caracteres'],
+    validate: {
+      validator(val) {
+        return /^[^\d]\w*/.test(val);
+      },
+      message: 'O nome da categoria não pode começar com um número.',
+    },
+    required: true,
+  },
 });
 
 const categoriesModel = mongoose.model('categories', categoriesSchema);
+
 export default categoriesModel;
