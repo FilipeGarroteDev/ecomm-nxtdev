@@ -1,0 +1,598 @@
+openapi: 3.0.1
+
+
+info:
+  title: Ecomm - LevelUp Alura
+  description: API para e-commerce desenvolvida durante o programa LevelUp da Alura com a PagoNxt
+  version: 0.0.1
+  contact:
+    name: Filipe Garrote
+    email: filipe.garrote@gmail.com
+    
+    
+servers:
+- url: http://localhost:3000/
+  description: API - Ecomm
+  
+  
+paths:
+
+  /api/categories:
+    get:
+      summary: Realiza a listagem de todas as categorias
+      responses:
+        200:
+          description: Sucesso
+          content:
+            application/json:
+              schema:
+                minLength: 0
+                type: array
+                items:
+                  $ref: "#/components/schemas/CategoriaComID"
+                  
+  /api/admin/categories:
+    post:
+      summary: Realiza a inserção de uma nova categoria
+      requestBody:
+        content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NovaCategoria"
+      responses:
+        201:
+          description: Criado
+          content:
+            application/json:
+              schema:
+                  $ref: "#/components/schemas/CategoriaComID"
+
+                  
+  /categories/{id}:
+    parameters: 
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+    get:
+      summary: Realiza a listagem de uma categoria específica
+      responses:
+        200:
+          $ref: "#/components/responses/CategoriaSucesso"
+        404:
+          $ref: "#/components/responses/NotFound"
+            
+            
+  /api/admin/categories/{id}:
+    parameters:
+    - name: id
+      in: path
+      required: true
+      schema:
+        type: integer 
+    put:
+      summary: Realiza a alteração dos dados de uma categoria
+      requestBody:
+        content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  name:
+                    type: string
+                  status:
+                    type: string
+      responses:
+        200:
+          $ref: "#/components/responses/CategoriaSucesso"
+        404:
+          $ref: "#/components/responses/NotFound"
+          
+    delete:
+      summary: Realiza a exclusão de uma categoria
+      responses:
+        200:
+          description: Categoria deletada
+        404:
+          $ref: "#/components/responses/NotFound"
+    
+  /api/admin/categories/ativacao/{id}:
+    parameters:
+    - name: id
+      in: path
+      required: true
+      schema:
+        type: integer
+    patch:
+      summary: Realiza a ativação de uma categoria
+      responses:
+        200:
+          description: Sucesso
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  name:
+                    type: string
+                  status:
+                    type: string
+                    enum: 
+                    - "ATIVA"
+        404:
+          $ref: "#/components/responses/NotFound"
+          
+          
+  /api/admin/products:
+    post:
+      summary: Realiza a inserção de um novo produto
+      requestBody:
+        content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NovoProduto"
+      responses:
+        201:
+          description: Criado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ProdutoComID"
+                
+  /api/products:
+    parameters:
+    - name: precoMinimo
+      required: false
+      in: query
+      schema:
+        type: integer
+    - name: precoMaximo
+      required: false
+      in: query
+      schema:
+        type: integer
+    - name: filtroCategoria
+      required: false
+      in: query
+      schema:
+        type: string
+    - name: estoqueMaiorQue
+      required: false
+      in: query
+      schema:
+        type: integer
+  
+    get:
+      summary: Lista todos os produtos existentes
+      responses:
+        200:
+          description: Sucesso
+          content:
+            application/json:
+              schema:
+                type: array
+                minLength: 0
+                items:
+                  $ref: "#/components/schemas/ProdutoComID"
+                  
+  
+  /api/products/{id}:
+    parameters:
+    - name: id
+      required: true
+      in: path
+      schema:
+        type: integer
+    
+    get:
+      summary: Lista um produto específico
+      responses:
+        200:
+          $ref: "#/components/responses/ProdutoSucesso"
+        404:
+          $ref: "#/components/responses/NotFound"
+          
+          
+  /api/admin/products/{id}:
+    parameters:
+    - name: id
+      required: true
+      in: path
+      schema:
+        type: integer
+    
+    put:
+      summary: Atualiza um produto específico
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/NovoProduto"
+      responses:
+        200:
+          $ref: "#/components/responses/ProdutoSucesso"
+        404:
+          $ref: "#/components/responses/NotFound"
+          
+    delete:
+      summary: Exclui um produto específico
+      responses:
+        200:
+          description: Produto deletado
+        404:
+          $ref: "#/components/responses/NotFound"
+          
+          
+  /api/admin/users:
+    post:
+      summary: Realiza a inserção de um novo usuário
+      requestBody:
+        content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NovoUsuario"
+      responses:
+        201:
+          description: Criado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UsuarioComID"
+
+    get:
+      summary: Lista todos os usuários existentes
+      responses:
+        200:
+          description: Sucesso
+          content:
+            application/json:
+              schema:
+                type: array
+                minLength: 0
+                items:
+                  $ref: "#/components/schemas/UsuarioComID"
+                  
+  
+  /api/users/{id}:
+    parameters:
+    - name: id
+      required: true
+      in: path
+      schema:
+        type: integer
+    
+    get:
+      summary: Lista um usuário específico
+      responses:
+        200:
+          $ref: "#/components/responses/UsuarioSucesso"
+        404:
+          $ref: "#/components/responses/NotFound"
+          
+          
+  /api/admin/users/{id}:
+    parameters:
+    - name: id
+      required: true
+      in: path
+      schema:
+        type: integer
+    
+    put:
+      summary: Atualiza um usuário específico
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/NovoUsuario"
+      responses:
+        200:
+          $ref: "#/components/responses/UsuarioSucesso"
+        404:
+          $ref: "#/components/responses/NotFound"
+          
+    delete:
+      summary: Exclui um usuário específico
+      responses:
+        200:
+          description: Usuário deletado
+        404:
+          $ref: "#/components/responses/NotFound"
+          
+          
+  /api/orders:
+    post:
+      summary: Realiza a criação de um novo pedido
+      requestBody:
+        content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NovoPedido"
+      responses:
+        201:
+          description: Criado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PedidoComID"
+                  
+  
+  /api/orders/{id}:
+    parameters:
+    - name: id
+      required: true
+      in: path
+      schema:
+        type: integer
+    
+    get:
+      summary: Detalha um pedido específico
+      responses:
+        200:
+          description: Sucesso
+          content:
+            application/json:
+              schema:
+               $ref: "#/components/schemas/PedidoComID"
+        404:
+          $ref: "#/components/responses/NotFound"
+          
+          
+components:
+  schemas:
+    CategoriaComID:
+      description: "entidade categoria"
+      type: object
+      properties:
+        id: 
+          type: integer
+        nome:
+          type: string
+        status:
+          type: string
+          
+    NovaCategoria:
+      description: "nova categoria"
+      type: object
+      properties:
+        nome:
+          type: string
+          
+    NovoProduto:
+      description: "novo produto"
+      type: object
+      properties:
+        nome:
+          type: string
+        descricao:
+          type: string
+        slug:
+          type: string
+        precoUnitario:
+          type: integer
+          format: decimal
+        quantidadeEmEstoque:
+          type: integer
+        categoria:
+          type: string
+    
+    ProdutoComID:
+      description: "produto"
+      type: object
+      properties:
+        id:
+          type: integer
+        nome:
+          type: string
+        descricao:
+          type: string
+        slug:
+          type: string
+        precoUnitario:
+          type: number
+          format: decimal
+        quantidadeEmEstoque:
+          type: integer
+        categoria:
+          type: string
+          
+    NovoUsuario:
+      description: "novo usuário"
+      type: object
+      properties:
+        nome:
+          type: string
+        email:
+          type: string
+        senha:
+          type: string
+        cpf:
+          type: number
+        telefone:
+          type: integer
+        rua:
+          type: string
+        numero:
+          type: string
+        complemento:
+          type: string
+        cep:
+          type: string
+        cidade:
+          type: string
+        estado:
+          type: string
+          enum: 
+          - "AC"
+          - "AL"
+          - "AP"
+          - "AM"
+          - "BA"
+          - "CE"
+          - "DF"
+          - "ES"
+          - "GO"
+          - "MA"
+          - "MT"
+          - "MS"
+          - "MG"
+          - "PA"
+          - "PB"
+          - "PR"
+          - "PE"
+          - "PI"
+          - "RJ"
+          - "RN"
+          - "RS"
+          - "RO"
+          - "RR"
+          - "SC"
+          - "SP"
+          - "SE"
+          - "TO"
+          
+    UsuarioComID:
+      description: "novo usuário"
+      type: object
+      properties:
+        id:
+          type: integer
+        nome:
+          type: string
+        email:
+          type: string
+        senha:
+          type: string
+        cpf:
+          type: number
+        telefone:
+          type: integer
+        rua:
+          type: string
+        numero:
+          type: string
+        complemento:
+          type: string
+        cep:
+          type: string
+        cidade:
+          type: string
+        estado:
+          type: string
+          enum: 
+          - "AC"
+          - "AL"
+          - "AP"
+          - "AM"
+          - "BA"
+          - "CE"
+          - "DF"
+          - "ES"
+          - "GO"
+          - "MA"
+          - "MT"
+          - "MS"
+          - "MG"
+          - "PA"
+          - "PB"
+          - "PR"
+          - "PE"
+          - "PI"
+          - "RJ"
+          - "RN"
+          - "RS"
+          - "RO"
+          - "RR"
+          - "SC"
+          - "SP"
+          - "SE"
+          - "TO"
+    
+    ItemPedido:
+      description: "item do pedido"
+      type: object
+      properties:
+        productId:
+          type: integer
+        quantidade:
+          type: integer
+        desconto:
+          type: number
+          format: decimal
+        precoUnitario:
+          type: number
+          format: decimal
+          
+    NovoPedido:
+      description: "novo pedido"
+      type: object
+      properties:
+        rua:
+          type: string
+        numero:
+          type: string
+        complemento:
+          type: string
+        cep:
+          type: string
+        cidade:
+          type: string
+        estado:
+          type: string
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/ItemPedido"
+            
+    PedidoComID:
+      description: "pedido"
+      type: object
+      properties:
+        id:
+          type: integer
+        rua:
+          type: string
+        numero:
+          type: string
+        complemento:
+          type: string
+        cep:
+          type: string
+        cidade:
+          type: string
+        estado:
+          type: string
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/ItemPedido"
+        
+          
+  responses:
+    NotFound:
+      description: Não Encontrado
+      content:
+        application/json:
+          example: "Not Found"
+      
+    CategoriaSucesso:
+      description: Sucesso
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/CategoriaComID"
+    
+    ProdutoSucesso:
+      description: Sucesso
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ProdutoComID"
+            
+    UsuarioSucesso:
+      description: Sucesso
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/UsuarioComID"

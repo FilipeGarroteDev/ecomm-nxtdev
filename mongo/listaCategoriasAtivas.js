@@ -1,3 +1,3 @@
-use("ecomm");
-const activeCategories = db.categories.find({ status: "ATIVA" });
+use('ecomm');
+const activeCategories = db.categories.find({ status: 'ATIVA' });
 console.log(activeCategories);
