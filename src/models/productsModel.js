@@ -7,7 +7,7 @@ const productsSchema = new mongoose.Schema({
     minLength: [3, 'É necessário que o nome do produto tenha, no mínimo, 3 caracteres'],
     validate: {
       validator(val) {
-        return /^[^\d]\w*/.test(val);
+        return /^[^\d][\wà-úÀ-Ú\s]*$/.test(val);
       },
       message: 'O nome do produto não pode começar com um número.',
     },
