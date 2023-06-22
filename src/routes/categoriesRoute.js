@@ -1,9 +1,9 @@
 import express from 'express';
 import CategoriesController from '../controllers/categoriesController.js';
 
-const router = express.Router();
+const categoriesRouter = express.Router();
 
-router
+categoriesRouter
   .get('/categories', CategoriesController.getAllCategories)
   .post('/admin/categories', CategoriesController.insertNewCategory)
   .get('/categories/:id', CategoriesController.getCategoryById)
@@ -11,4 +11,4 @@ router
   .delete('/admin/categories/:id', CategoriesController.deleteCategory)
   .patch('/admin/categories/:id', CategoriesController.activeCategory);
 
-export default router;
+export default categoriesRouter;

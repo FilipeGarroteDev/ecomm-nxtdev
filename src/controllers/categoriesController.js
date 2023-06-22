@@ -1,4 +1,4 @@
-import CategoriesModel from '../models/categories.js';
+import CategoriesModel from '../models/categoriesModel.js';
 
 class CategoriesController {
   static async getAllCategories(_, res) {
