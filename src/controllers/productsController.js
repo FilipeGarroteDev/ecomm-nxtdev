@@ -23,20 +23,20 @@ class ProductsController {
     }
   }
 
-  // static async getCategoryById(req, res) {
-  //   const { id } = req.params;
-  //   try {
-  //     const category = await CategoriesModel.findById(id);
-  //     if (!category) return res.status(404).send('Não há quaisquer categorias com o id informado. Por gentileza, refaça a operação.');
+  static async getProductById(req, res) {
+    const { id } = req.params;
+    try {
+      const product = await ProductsModel.findById(id);
+      if (!product) return res.status(404).send('Não há quaisquer produtos com o id informado. Por gentileza, refaça a operação.');
 
-  //     return res.status(200).send(category);
-  //   } catch (error) {
-  //     if (error.name === 'CastError') {
-  //       return res.status(400).send('O id informado é inválido, favor informe um id compatível com o tipo ObjectID');
-  //     }
-  //     return res.status(500).send('Houve um erro com sua requisição. Por favor, tente novamente');
-  //   }
-  // }
+      return res.status(200).send(product);
+    } catch (error) {
+      if (error.name === 'CastError') {
+        return res.status(400).send('O id informado é inválido, favor informe um id compatível com o tipo ObjectID');
+      }
+      return res.status(500).send('Houve um erro com sua requisição. Por favor, tente novamente');
+    }
+  }
 
   // static async updateCategory(req, res) {
   //   const { id } = req.params;

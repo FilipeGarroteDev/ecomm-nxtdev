@@ -5,10 +5,9 @@ const productsRouter = express.Router();
 
 productsRouter
   .get('/products', ProductsController.getAllProducts)
-  .post('/admin/products', ProductsController.insertNewProduct);
-// .get('/categories/:id', CategoriesController.getCategoryById)
-// .put('/admin/categories/:id', CategoriesController.updateCategory)
-// .delete('/admin/categories/:id', CategoriesController.deleteCategory)
-// .patch('/admin/categories/:id', CategoriesController.activeCategory);
+  .post('/admin/products', ProductsController.insertNewProduct)
+  .get('/products/:id', ProductsController.getProductById);
+// .put('/admin/products/:id', ProductsController.)
+// .delete('/admin/products/:id', ProductsController.);
 
 export default productsRouter;
