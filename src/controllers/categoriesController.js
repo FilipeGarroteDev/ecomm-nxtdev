@@ -64,7 +64,6 @@ class CategoriesController {
 
     try {
       const category = await CategoriesModel.findByIdAndDelete(id);
-      console.log(category);
       if (!category) return res.status(404).send('Não há quaisquer categorias com o id informado. Por gentileza, refaça a operação.');
 
       return res.status(200).send('Categoria removida com sucesso');
@@ -86,7 +85,6 @@ class CategoriesController {
 
       return res.status(200).send('Categoria ativada!');
     } catch (error) {
-      console.log(error);
       if (error.name === 'CastError') {
         return res.status(400).send('O id informado é inválido, favor informe um id compatível com o tipo ObjectID');
       }
