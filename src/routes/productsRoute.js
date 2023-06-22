@@ -4,7 +4,7 @@ import ProductsController from '../controllers/productsController.js';
 const productsRouter = express.Router();
 
 productsRouter
-  // .get('/categories', CategoriesController.getAllCategories)
+  .get('/products', ProductsController.getAllProducts)
   .post('/admin/products', ProductsController.insertNewProduct);
 // .get('/categories/:id', CategoriesController.getCategoryById)
 // .put('/admin/categories/:id', CategoriesController.updateCategory)

@@ -1,14 +1,14 @@
 import ProductsModel from '../models/productsModel.js';
 
 class ProductsController {
-  // static async getAllCategories(_, res) {
-  //   try {
-  //     const categories = await CategoriesModel.find();
-  //     return res.status(200).send(categories);
-  //   } catch (error) {
-  //     return res.status(500).send('Houve um erro na requisição. Por favor, tente novamente');
-  //   }
-  // }
+  static async getAllProducts(_, res) {
+    try {
+      const products = await ProductsModel.find();
+      return res.status(200).send(products);
+    } catch (error) {
+      return res.status(500).send('Houve um erro na requisição. Por favor, tente novamente');
+    }
+  }
 
   static async insertNewProduct(req, res) {
     const newProduct = new ProductsModel(req.body);
