@@ -1,8 +1,17 @@
 version: "3.9"
 services:
-  app-ecomm:
-    image: filipegarrote/ecomm:1.0
-    container_name: ecomm
+
+  ecomm:
+    build: .
+    container_name: ecomm-app
+    networks:
+      - ecomm-mongo
+    ports:
+      - 3000:3000
+    depends_on:
+      - mongo-ecomm
+    environment:
+      HOST_MONGO: mongo-ecomm
 
   mongo-ecomm:
     image: mongo
@@ -18,6 +27,12 @@ services:
     restart: always
     ports:
       - 27017:27017
+    networks:
+      - ecomm-mongo
+
+networks:
+  ecomm-mongo:
+    driver: bridge
 
 volumes:
   db-mongo-ecomm:
