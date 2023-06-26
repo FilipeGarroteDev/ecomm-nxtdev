@@ -7,7 +7,7 @@ const port = 3000;
 const server = app.listen(port);
 
 afterEach(async () => {
-  await cleanDB();
+  await cleanDB.cleanCategoriesCollection();
 });
 
 afterAll(() => {
@@ -51,13 +51,13 @@ describe('GET api/categories', () => {
   });
 });
 
-let idInexistente;
+let idCategoriaParametro;
 describe('POST api/admin/categories', () => {
   it.each([
     ['ausência do campo nome', { status: 'ATIVA' }],
     ['campo nome iniciando com número', { nome: '1TECNOLOGIA', status: 'ATIVA' }],
     ['campo nome com menos de 3 caracteres', { nome: 'AB', status: 'ATIVA' }],
-    ['campo status com valor inválido', { nome: '1TECNOLOGIA', status: 'QUALQUER' }],
+    ['campo status com valor inválido', { nome: 'TECNOLOGIA', status: 'QUALQUER' }],
   ])('Deve responder com status 422, caso seja fornecida uma categoria com %s.', async (title, mock) => {
     const response = await request.post('/api/admin/categories').send(mock);
     expect(response.status).toBe(422);
@@ -69,7 +69,7 @@ describe('POST api/admin/categories', () => {
   ])('Deve responder com status 201 e salvar o registro no banco, caso seja fornecido um body válido (teste com status = %s).', async (title, mock) => {
     const response = await request.post('/api/admin/categories').send(mock);
     const category = await CategoriesModel.findOne({ nome: mock.nome });
-    idInexistente = category._id;
+    idCategoriaParametro = category._id;
 
     expect(response.status).toBe(201);
     expect(category).toEqual(expect.objectContaining({
@@ -82,7 +82,7 @@ describe('POST api/admin/categories', () => {
 
 describe('GET api/categories/:id', () => {
   it('Deve responder com status 404, caso seja fornecido um id válido, porém inexistente.', async () => {
-    const response = await request.get(`/api/categories/${idInexistente}`);
+    const response = await request.get(`/api/categories/${idCategoriaParametro}`);
     expect(response.status).toBe(404);
   });
 
@@ -106,7 +106,7 @@ describe('GET api/categories/:id', () => {
 
 describe('PUT api/admin/categories/:id', () => {
   it('Deve responder com status 404, caso seja fornecido um id válido, porém inexistente.', async () => {
-    const response = await request.put(`/api/admin/categories/${idInexistente}`);
+    const response = await request.put(`/api/admin/categories/${idCategoriaParametro}`);
     expect(response.status).toBe(404);
   });
 
@@ -132,7 +132,7 @@ describe('PUT api/admin/categories/:id', () => {
 
 describe('DELETE api/admin/categories/:id', () => {
   it('Deve responder com status 404, caso seja fornecido um id válido, porém inexistente.', async () => {
-    const response = await request.delete(`/api/admin/categories/${idInexistente}`);
+    const response = await request.delete(`/api/admin/categories/${idCategoriaParametro}`);
     expect(response.status).toBe(404);
   });
 
@@ -155,7 +155,7 @@ describe('DELETE api/admin/categories/:id', () => {
 
 describe('PATCH api/admin/categories/:id', () => {
   it('Deve responder com status 404, caso seja fornecido um id válido, porém inexistente.', async () => {
-    const response = await request.patch(`/api/admin/categories/${idInexistente}`);
+    const response = await request.patch(`/api/admin/categories/${idCategoriaParametro}`);
     expect(response.status).toBe(404);
   });
 
