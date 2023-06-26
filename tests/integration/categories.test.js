@@ -115,6 +115,19 @@ describe('PUT api/admin/categories/:id', () => {
     expect(response.status).toBe(400);
   });
 
+  it.each([
+    ['campo nome iniciando com número', { nome: '1TECNOLOGIA', status: 'ATIVA' }],
+    ['campo nome com menos de 3 caracteres', { nome: 'AB', status: 'ATIVA' }],
+    ['campo status com valor inválido', { nome: 'TECNOLOGIA', status: 'QUALQUER' }],
+  ])('Deve responder com status 422, quando fornecida categoria com %s', async (title, mock) => {
+    const newCategory = new CategoriesModel({ nome: 'TESTE', status: 'ATIVA' });
+    const insertedCategory = await newCategory.save();
+
+    const response = await request.put(`/api/admin/categories/${insertedCategory._id.toHexString()}`).send(mock);
+
+    expect(response.status).toBe(422);
+  });
+
   it('Deve responder com status 200 e atualizar a categoria indicada', async () => {
     const newCategory = new CategoriesModel({ nome: 'TESTE', status: 'ATIVA' });
     const insertedCategory = await newCategory.save();

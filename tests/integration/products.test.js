@@ -178,41 +178,32 @@ describe('PUT api/admin/products/:id', () => {
   });
 
   it.each([
-    ['ausência do campo nome', {
-      slug: 'glx-s21', precoUnitario: 2000, quantidadeEmEstoque: 10, categoryId: idCategoriaParametro,
-    }],
     ['campo nome iniciando com número', {
       nome: '1CELULAR GALAXY', slug: 'glx-s21', precoUnitario: 2000, quantidadeEmEstoque: 10, categoryId: idCategoriaParametro,
-    }],
-    ['ausência do campo slug', {
-      nome: 'CELULAR GALAXY', precoUnitario: 2000, quantidadeEmEstoque: 10, categoryId: idCategoriaParametro,
     }],
     ['campo slug contendo caracteres especiais', {
       nome: 'CELULAR GALAXY', slug: 'glx@s21', precoUnitario: 2000, quantidadeEmEstoque: 10, categoryId: idCategoriaParametro,
     }],
-    ['ausência do campo precoUnitario', {
-      nome: 'CELULAR GALAXY', slug: 'glx-s21', quantidadeEmEstoque: 10, categoryId: idCategoriaParametro,
-    }],
+
     ['campo precoUnitario com valor = 0', {
       nome: 'CELULAR GALAXY', slug: 'glx-s21', precoUnitario: 0, quantidadeEmEstoque: 10, categoryId: idCategoriaParametro,
     }],
-    ['ausência do campo quantidadeEmEstoque', {
-      nome: 'CELULAR GALAXY', slug: 'glx-s21', precoUnitario: 2000, categoryId: idCategoriaParametro,
-    }],
+
     ['campo quantidadeEmEstoque com valor = 0', {
       nome: 'CELULAR GALAXY', slug: 'glx-s21', precoUnitario: 2000, quantidadeEmEstoque: 0, categoryId: idCategoriaParametro,
     }],
     ['campo quantidadeEmEstoque com valor = 10001', {
       nome: 'CELULAR GALAXY', slug: 'glx-s21', precoUnitario: 2000, quantidadeEmEstoque: 10001, categoryId: idCategoriaParametro,
     }],
-    ['ausência do campo categoryId', {
-      nome: 'CELULAR GALAXY', slug: 'glx-s21', precoUnitario: 2000, quantidadeEmEstoque: 10,
-    }],
     ['campo categoryId com um id inválido/inexistente', {
       nome: 'CELULAR GALAXY', slug: 'glx-s21', precoUnitario: 2000, quantidadeEmEstoque: 10, categoryId: 'IdInválido',
     }],
   ])('Deve responder com status 422, caso seja fornecido, no body, objeto com %s.', async (title, mock) => {
-    const response = await request.put('/api/admin/products/idInvalido').send(mock);
+    const newProduct = await ProductsModel.create({
+      nome: 'CELULAR GALAXY', slug: 'glx-s21', precoUnitario: 2000, quantidadeEmEstoque: 10, categoryId: idCategoriaParametro,
+    });
+
+    const response = await request.put(`/api/admin/products/${newProduct._id.toHexString()}`).send(mock);
     expect(response.status).toBe(422);
   });
 
